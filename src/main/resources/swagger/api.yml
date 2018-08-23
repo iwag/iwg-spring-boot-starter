@@ -1,6 +1,9 @@
-# API-first development with OpenAPI
-# This file will be used at compile time to generate Spring-MVC endpoint stubs using openapi-generator
-openapi: "3.0.1"
+swagger: '2.0'
 info:
-  version: 0.0.1
-paths: {}
+  title: Hempire API v2
+  description: RESTful Helper API for Hempire game used on all api versions
+  version: HELPER
+schemes:
+  - https
+paths:
+
