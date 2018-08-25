@@ -1,9 +1,224 @@
 swagger: '2.0'
 info:
-  title: Hempire API v2
+  title: Hempire API
   description: RESTful Helper API for Hempire game used on all api versions
   version: HELPER
+host: tokyo.hempiregame.net
 schemes:
   - https
+consumes:
+  - application/x-www-form-urlencoded
 paths:
-
+  /login:
+    post:
+      tags:
+        - LoginController
+      summary: Login player or register it on server; Execute this endpoint before others
+      consumes:
+        - "application/x-www-form-urlencoded"
+      parameters:
+        - $ref: '#/parameters/deviceId'
+        - name: deviceId
+          in: formData
+          description: Player's Facebook User ID
+          required: true
+          type: string
+        - name: fb_user_id
+          in: formData
+          description: Player's Facebook User ID
+          type: string
+        - name: device_model
+          in: formData
+          description: Player's device model
+          type: string
+        - name: device_os
+          in: formData
+          description: Player's device OS
+          type: string
+        - name: player_data_timestamp
+          in: formData
+          description: timestamp
+          type: string
+        - name: useCompressed
+          in: formData
+          description: 1 or 0
+          type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            properties:
+              specialPackage:
+                description: special package
+                type: object
+                $ref: '#/definitions/SpecialPackage'
+              hempireAdminSettings:
+                description: Settings
+                type: object
+                $ref: '#/definitions/HempireAdminSettings'
+              playerData:
+                properties:
+                  player:
+                    description: Player
+                    type: object
+                    $ref: '#/definitions/Player'
+                  newPlayer:
+                    description: newPlayer or not
+                    type: boolean
+                  wipePlayerPrefs:
+                    description: wipePlayerPrefs or not
+                    type: boolean
+                  clearPlayerPrefs:
+                    description: newPlayer or not
+                    type: boolean
+                type: object
+              currentTime:
+                description: currentTime
+                type: integer
+              authToken:
+                description: authToken
+                type: string
+              newPlayerData:
+                description: player data encoded
+                type: string
+              isCompressed:
+                description: isCompressed
+                type: boolean
+              serverPlayerDataTimestamp:
+                description: api version
+                type: integer
+              hempireCupInfo:
+                description: HempireCupInfo
+                type: object
+                $ref: '#/definitions/HempireCupInfo'
+              dailyReward:
+                description: DailyReward
+                type: object
+                $ref: '#/definitions/DailyReward'
+              server_time:
+                description: api version
+                type: string
+              sucess:
+                description: api version
+                type: boolean
+            type: object
+  /players/getPlayerProfile:
+    post:
+      tags:
+        - PlayersController
+      summary: Get the profile from a requested player
+      consumes:
+      - "application/x-www-form-urlencoded"
+      parameters:
+        - $ref: '#/parameters/deviceId'
+        - name: id
+          in: formData
+          description: The player id to get info
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            properties:
+              todo:
+                description: 'TODO: Finish this response doc'
+                type: string
+            type: object
+  /version/getApi:
+    post:
+      tags:
+        - VersionController
+      summary: Get api based on build version to client make next requests and other informations
+      consumes:
+      - "application/x-www-form-urlencoded"
+      parameters:
+        - $ref: '#/parameters/deviceId'
+        - name: platform
+          in: formData
+          description: Player's device platform
+          required: true
+          type: string
+          default: Android
+          enum:
+            - Android
+            - IPhonePlayer
+        - name: build_version
+          in: formData
+          description: Player's game build version
+          required: true
+          type: string
+        - name: max_texture_size
+          in: formData
+          description: Player's device max texture size
+          type: integer
+        - name: device_model
+          in: formData
+          description: Player's device model
+          type: integer
+        - name: device_os
+          in: formData
+          description: Player's device OS
+          type: integer
+        - name: screen_width
+          in: formData
+          description: Player's device screen width
+          type: integer
+        - name: screen_height
+          in: formData
+          description: Player's device screen height
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            properties:
+              api_version:
+                description: api version
+                type: string
+              last_api_version:
+                description: api version
+                type: integer
+              download_url:
+                description: ''
+                type: string
+              new_version_warning:
+                description: api version
+                type: boolean
+              maintenance_warning:
+                description: api version
+                type: boolean
+              enable_debug:
+                description: api version
+                type: boolean
+              localization_timestamp:
+                description: api version
+                type: integer
+              gamedata_timestamp:
+                description: api version
+                type: integer
+              cache_base_url_path:
+                description: api version
+                type: string
+              success:
+                description: api version
+                type: boolean
+            type: object
+parameters:
+  deviceId:
+    name: deviceId
+    in: formData
+    description: A unique id for each device
+    required: true
+    type: string
+definitions:
+  SpecialPackage:
+    type: object
+  HempireAdminSettings:
+    type: object
+  Player:
+    type: object
+  HempireCupInfo:
+    type: object
+  DailyReward:
+    type: object

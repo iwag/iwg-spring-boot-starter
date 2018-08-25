@@ -11,7 +11,9 @@ public final class Constants {
     public static final String SYSTEM_ACCOUNT = "system";
     public static final String ANONYMOUS_USER = "anonymoususer";
     public static final String DEFAULT_LANGUAGE = "en";
-    
+
+    public static final String LAST_API_VERSION = "versions:last_api_version";
+
     private Constants() {
     }
 }
