@@ -2,21 +2,11 @@ package biz.iwag.blog.web.rest;
 
 import biz.iwag.blog.service.dto.VersionDTO;
 import com.codahale.metrics.annotation.Timed;
-import biz.iwag.blog.domain.Version;
 import biz.iwag.blog.service.VersionService;
-import biz.iwag.blog.web.rest.errors.BadRequestAlertException;
-import biz.iwag.blog.web.rest.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * REST controller for managing Version.
@@ -42,9 +32,12 @@ public class VersionResource {
     @RequestMapping(path = "/version/getApi", method=RequestMethod.POST)
     @Timed
     public ResponseEntity<VersionDTO> getApi(@RequestParam("deviceId") String deviceId,
-                                         @RequestParam("platform") String platform,
-                                         @RequestParam("build_version") String buildVersion) {
-        VersionDTO info = versionService.getVersionInfo(platform, buildVersion);
+                                             @RequestParam("platform") String platform,
+                                             @RequestParam("build_version") String buildVersion,
+                                             @RequestParam("device_model") String deviceModel,
+                                             @RequestParam("screen_height") Integer screenHeight,
+                                             @RequestParam("max_texture_size")  Integer maxTextureSize) {
+        VersionDTO info = versionService.getVersionInfo(platform, buildVersion, deviceId, deviceModel, screenHeight, maxTextureSize);
         return ResponseEntity.ok(info);
     }
 }
