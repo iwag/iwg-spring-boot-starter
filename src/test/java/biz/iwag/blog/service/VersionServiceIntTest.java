@@ -4,7 +4,6 @@ import biz.iwag.blog.BlogApp;
 import biz.iwag.blog.config.Constants;
 import biz.iwag.blog.domain.User;
 import biz.iwag.blog.repository.GameDataRedisRepository;
-import biz.iwag.blog.repository.GeneralSettingsRepository;
 import biz.iwag.blog.repository.HelperRedisRepository;
 import biz.iwag.blog.repository.UserRepository;
 import biz.iwag.blog.service.dto.UserDTO;
@@ -37,10 +36,6 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = BlogApp.class)
 @Transactional
 public class VersionServiceIntTest {
-
-
-    @Autowired
-    GeneralSettingsRepository generalSettingsRepo;
 
     @Autowired
     GameDataRedisRepository gameDataRedisRepository;

@@ -1,15 +1,11 @@
 package biz.iwag.blog.service;
 
+import biz.iwag.blog.config.ApplicationProperties;
 import biz.iwag.blog.config.Constants;
-import biz.iwag.blog.domain.GeneralSettings;
-import biz.iwag.blog.domain.Version;
 import biz.iwag.blog.repository.GameDataRedisRepository;
-import biz.iwag.blog.repository.GeneralSettingsRepository;
 import biz.iwag.blog.repository.HelperRedisRepository;
 import biz.iwag.blog.service.dto.VersionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.*;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -19,9 +15,12 @@ import java.util.*;
 @SuppressWarnings("unused")
 @Service
 public class VersionService {
+    static int LAST_API_VERSION = 34;
+    static int LAST_BUILD_NUMVER = 214;
+    static String LAST_APP_VERSION = "1.17.0";
 
     @Autowired
-    GeneralSettingsRepository generalSettingsRepo;
+    ApplicationProperties applicationProperties;
 
     @Autowired
     GameDataRedisRepository gameDataRedisRepository;
@@ -51,18 +50,20 @@ public class VersionService {
         String lastApplicationVersion = null;
         if (api < lastApi) {
             newVersionWarning = true;
-            lastBuildNumber = Integer.valueOf(generalSettingsRepo.get(Constants.LAST_BUILD_VERSION));
-            lastApplicationVersion = generalSettingsRepo.get(Constants.LAST_APP_VERSION);
+            lastBuildNumber = helperRedisRepository.get(Constants.LAST_BUILD_VERSION).map(Integer::valueOf).orElse(LAST_API_VERSION);
+            lastApplicationVersion = helperRedisRepository.get(Constants.LAST_APP_VERSION).orElse(LAST_APP_VERSION);
         }
 
-        Long localizationTimestamp = Long.valueOf(gameDataRedisRepository.get(Integer.toString(api) + ":internationalization:timestamp"));
-        Long gamedataTimestamp = Long.valueOf(gameDataRedisRepository.get(Integer.toString(api) + ":game_data:timestamp"));
+        String localizationTimestampStr = gameDataRedisRepository.get("v" + Integer.toString(api) + ":internationalization:timestamp");
+        Long localizationTimestamp = localizationTimestampStr!=null && !localizationTimestampStr.isEmpty() ? Long.valueOf(localizationTimestampStr) : 0;
+        String gamedataTimestampStr = gameDataRedisRepository.get("v" +Integer.toString(api)+ ":game_data:timestamp");
+        Long gamedataTimestamp = gamedataTimestampStr != null && !gamedataTimestampStr.isEmpty() ? Long.valueOf(gamedataTimestampStr) : 0;
 
-        String cacheBaseUrl = ""; // CONFIG.get_cache_base_url
+        String cacheBaseUrl = applicationProperties.getCaches().getCache_base_url_path();
         Boolean maintenanceWarning = false;
         Boolean enableDebug = isDebugDevice(deviceId);
-        String downloadUrl = helperRedisRepository.get("download_url" + platform.toLowerCase());
-        return new VersionDTO(api, true, lastApi,downloadUrl, newVersionWarning, maintenanceWarning, enableDebug, getBundleVarient(deviceModel, screenHeight, maxTextureSize), localizationTimestamp, gamedataTimestamp, cacheBaseUrl, lastBuildNumber, lastApplicationVersion);
+        String downloadUrl = getDownloadUrl(platform);
+        return new VersionDTO(api, true, lastApi,downloadUrl, newVersionWarning, maintenanceWarning, enableDebug, getBundleVariant(deviceModel, screenHeight, maxTextureSize), localizationTimestamp, gamedataTimestamp, cacheBaseUrl, lastBuildNumber, lastApplicationVersion);
     }
 
     private Boolean isDebugDevice(String deviceId) {
@@ -70,11 +71,12 @@ public class VersionService {
         return list.stream().anyMatch(s -> s.equals(deviceId));
     }
 
-    private String getBundleVarient(@NotNull String deviceModel, Integer screenHeight, Integer maxTextureSize) {
+    private String getBundleVariant(@NotNull String deviceModel, Integer screenHeight, Integer maxTextureSize) {
 
         String lowered = deviceModel.replace(" ", "_").toLowerCase();
-        Map<String, String> mapped = helperRedisRepository.getMap("bundle_variants" + lowered);
-        String variant = Optional.of(mapped.getOrDefault(deviceModel, "sd")).orElse(screenHeight <= 768 ? "sd" : (maxTextureSize < 4096 ? "hd" : "sd"));
+        Optional<String> mapped = helperRedisRepository.getValue("settings", "bundle_variants:" + lowered);
+        //Map<String, String> mapped = helperRedisRepository.getMap("bundle_variants" + lowered);
+        String variant = Optional.of(mapped.orElse("sd")).orElse(screenHeight <= 768 ? "sd" : (maxTextureSize < 4096 ? "hd" : "sd"));
 
         return variant;
 //        $bundle_variant = null;
@@ -102,12 +104,20 @@ public class VersionService {
 //        $response["bundle_variant"] = $bundle_variant;
     }
 
+    private String getDownloadUrl(String platform){
+        if (platform!=null){
+            Optional<String> url = helperRedisRepository.getValue("settings", "download_url:" + platform.toLowerCase());
+            return url.orElse("http://hempiregame.com");
+        }
+        return "http://hempiregame.com";
+    }
+
     private Integer getApiBy(String platform, String buildVersion) {
         return mappedVersion.getOrDefault(buildVersion, 0);
     }
 
     private Integer lastUpdatedApi() {
-        String s = generalSettingsRepo.get(Constants.LAST_API_VERSION);
-        return Integer.valueOf(s);
+        Optional<String> s = helperRedisRepository.get(Constants.LAST_API_VERSION);
+        return s.map(i -> Integer.valueOf(i)).orElse(LAST_API_VERSION);
     }
 }
