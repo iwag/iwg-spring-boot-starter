@@ -204,6 +204,9 @@ dependencies {
     compile "io.springfox:springfox-bean-validators"
     compile "org.postgresql:postgresql"
     compile "org.mapstruct:mapstruct-jdk8:${mapstruct_version}"
+    compile("org.springframework.boot:spring-boot-starter-data-redis")
+    compile("org.apache.commons:commons-pool2:2.0")
+
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct_version}"
     annotationProcessor "org.hibernate:hibernate-jpamodelgen"
     annotationProcessor ("org.springframework.boot:spring-boot-configuration-processor") {
@@ -222,6 +225,7 @@ dependencies {
     testCompile "org.mockito:mockito-core"
     testCompile "com.mattbertolini:liquibase-slf4j"
     testCompile "org.hamcrest:hamcrest-library"
+    testCompile("it.ozimov:embedded-redis:0.7.1")
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 

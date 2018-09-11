@@ -54,6 +54,9 @@ spring:
             enabled: false
     thymeleaf:
         mode: HTML
+    redis:
+        hostname: 0.0.0.0
+        port: 56379
 
 # ===================================================================
 # OpenID Connect Settings. Default settings are for Keycloak in Docker.
@@ -138,4 +141,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+    caches:
+        cache_base_url_path: "https://content-dev.hempiregame.ninja/"
