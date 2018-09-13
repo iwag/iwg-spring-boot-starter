@@ -1,12 +1,8 @@
 package biz.iwag.blog.service;
 
 import biz.iwag.blog.BlogApp;
-import biz.iwag.blog.config.Constants;
-import biz.iwag.blog.domain.User;
 import biz.iwag.blog.repository.GameDataRedisRepository;
 import biz.iwag.blog.repository.HelperRedisRepository;
-import biz.iwag.blog.repository.UserRepository;
-import biz.iwag.blog.service.dto.UserDTO;
 import biz.iwag.blog.service.dto.VersionDTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.auditing.AuditingHandler;
 import org.springframework.data.auditing.DateTimeProvider;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
