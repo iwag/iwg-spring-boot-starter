@@ -41,15 +41,11 @@ spring:
             hibernate.hbm2ddl.auto: validate
     liquibase:
         contexts: test
-    mail:
-        host: localhost
     messages:
         basename: i18n/messages
     mvc:
         favicon:
             enabled: false
-    thymeleaf:
-        mode: HTML
     redis:
         hostname: localhost
         port: 46379
@@ -81,14 +77,6 @@ jhipster:
             host: localhost
             port: 5000
             queue-size: 512
-    mail:
-        from: test@localhost
-        base-url: http://127.0.0.1:8080
-    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
-        jmx.enabled: true
-        logs: # Reports Dropwizard metrics in the logs
-            enabled: true
-            report-frequency: 60 # in seconds
 
 # ===================================================================
 # Application specific properties

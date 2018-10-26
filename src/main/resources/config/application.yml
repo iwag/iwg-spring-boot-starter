@@ -26,9 +26,6 @@ management:
     info:
         git:
             mode: full
-    health:
-        mail:
-            enabled: false # When using the MailService, configure an SMTP server and set this to true
     metrics:
         enabled: false # http://micrometer.io/ is disabled by default, as we use http://metrics.dropwizard.io/ instead
 
@@ -52,8 +49,6 @@ spring:
     mvc:
         favicon:
             enabled: false
-    thymeleaf:
-        mode: HTML
     redis:
         hostname: 0.0.0.0
         port: 56379
@@ -80,27 +75,6 @@ jhipster:
         core-pool-size: 2
         max-pool-size: 50
         queue-capacity: 10000
-    # By default CORS is disabled. Uncomment to enable.
-    #cors:
-        #allowed-origins: "*"
-        #allowed-methods: "*"
-        #allowed-headers: "*"
-        #exposed-headers: "Authorization,Link,X-Total-Count"
-        #allow-credentials: true
-        #max-age: 1800
-    mail:
-        from: blog@localhost
-    swagger:
-        default-include-pattern: /api/.*
-        title: blog API
-        description: blog API documentation
-        version: 0.0.1
-        terms-of-service-url:
-        contact-name:
-        contact-url:
-        contact-email:
-        license:
-        license-url:
 
 # ===================================================================
 # Application specific properties

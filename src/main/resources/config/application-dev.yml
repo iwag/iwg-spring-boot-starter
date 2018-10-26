@@ -22,7 +22,6 @@ logging:
 spring:
     profiles:
         active: dev
-        include: swagger
     devtools:
         restart:
             enabled: true
@@ -49,15 +48,8 @@ spring:
             hibernate.generate_statistics: true
     liquibase:
         contexts: dev
-    mail:
-        host: localhost
-        port: 25
-        username:
-        password:
     messages:
         cache-duration: PT1S # 1 second, see the ISO 8601 standard
-    thymeleaf:
-        cache: false
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
@@ -88,17 +80,6 @@ server:
 jhipster:
     http:
         version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
-    # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
-    cors:
-        allowed-origins: "*"
-        allowed-methods: "*"
-        allowed-headers: "*"
-        exposed-headers: "Authorization,Link,X-Total-Count"
-        allow-credentials: true
-        max-age: 1800
-    mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: blog@localhost
-        base-url: http://127.0.0.1:8080
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx:
             enabled: true
