@@ -16,9 +16,6 @@ buildscript {
 }
 
 plugins {
-    id "net.ltgt.apt-eclipse" version "0.15"
-    id "net.ltgt.apt-idea" version "0.15"
-    id "net.ltgt.apt" version "0.15"
     id "io.spring.dependency-management" version "1.0.5.RELEASE"
     //jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
 }
@@ -63,29 +60,6 @@ springBoot {
     buildInfo()
 }
 
-if (OperatingSystem.current().isWindows()) {
-    // https://stackoverflow.com/questions/40037487/the-filename-or-extension-is-too-long-error-using-gradle
-    task classpathJar(type: Jar) {
-        dependsOn configurations.runtime
-        appendix = 'classpath'
-
-        doFirst {
-            manifest {
-                attributes 'Class-Path': configurations.runtime.files.collect {
-                    it.toURI().toURL().toString().replaceFirst(/file:\/+/, '/').replaceAll(' ', '%20')
-                }.join(' ')
-            }
-        }
-    }
-
-    bootRun {
-        dependsOn classpathJar
-        doFirst {
-            classpath = files("$buildDir/classes/java/main", "$buildDir/resources/main", classpathJar.archivePath)
-        }
-    }
-}
-
 apply from: 'gradle/docker.gradle'
 apply from: 'gradle/liquibase.gradle'
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
@@ -116,7 +90,6 @@ dependencies {
     compile "io.dropwizard.metrics:metrics-jvm"
     compile "io.dropwizard.metrics:metrics-servlet"
     compile "io.dropwizard.metrics:metrics-servlets"
-    compile "net.logstash.logback:logstash-logback-encoder"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-json-org"
 //    compile "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
