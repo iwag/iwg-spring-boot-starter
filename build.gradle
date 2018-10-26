@@ -141,7 +141,6 @@ dependencies {
         exclude module: 'spring-boot-starter-tomcat'
     }
     compile "org.springframework.boot:spring-boot-starter-undertow"
-    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile "org.postgresql:postgresql"
     compile("org.springframework.boot:spring-boot-starter-data-redis")
     compile("org.apache.commons:commons-pool2:2.0")
