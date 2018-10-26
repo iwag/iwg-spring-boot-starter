@@ -16,7 +16,6 @@ import java.sql.SQLException;
 
 @Configuration
 @EnableJpaRepositories("biz.iwag.blog.repository")
-@EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
 public class DatabaseConfiguration {
 

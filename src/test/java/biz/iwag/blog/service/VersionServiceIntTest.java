@@ -43,19 +43,13 @@ public class VersionServiceIntTest {
     @Autowired
     private VersionService versionService;
 
-    @Autowired
-    private AuditingHandler auditingHandler;
-
     @Mock
     DateTimeProvider dateTimeProvider;
 
 
     @Before
     public void init() {
-
-
         when(dateTimeProvider.getNow()).thenReturn(Optional.of(LocalDateTime.now()));
-        auditingHandler.setDateTimeProvider(dateTimeProvider);
     }
 
     @Test

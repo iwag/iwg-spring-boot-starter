@@ -130,29 +130,18 @@ dependencies {
     // compile "commons-io:commons-io" // for utility functions
     compile "javax.transaction:javax.transaction-api"
     compile "org.hibernate:hibernate-entitymanager"
-    compile "org.hibernate:hibernate-envers"
     compile "org.hibernate.validator:hibernate-validator"
     compile "org.liquibase:liquibase-core"
     //compile "com.mattbertolini:liquibase-slf4j"
     compile "org.springframework.boot:spring-boot-loader-tools"
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-aop"
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "org.springframework.boot:spring-boot-starter-security"
     compile ("org.springframework.boot:spring-boot-starter-web") {
         exclude module: 'spring-boot-starter-tomcat'
     }
     compile "org.springframework.boot:spring-boot-starter-undertow"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
-    compile "org.zalando:problem-spring-web"
-    compile "org.springframework.cloud:spring-cloud-security"
-    compile "org.springframework.cloud:spring-cloud-spring-service-connector"
-    compile "org.springframework.security:spring-security-config"
-    compile "org.springframework.security:spring-security-data"
-    compile "org.springframework.security:spring-security-web"
-    compile "org.springframework.security.oauth:spring-security-oauth2"
-    compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
     compile "org.postgresql:postgresql"
     compile("org.springframework.boot:spring-boot-starter-data-redis")
     compile("org.apache.commons:commons-pool2:2.0")
@@ -166,7 +155,6 @@ dependencies {
     testCompile ("org.springframework.boot:spring-boot-starter-test") {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
-    testCompile "org.springframework.security:spring-security-test"
     testCompile "org.springframework.boot:spring-boot-test"
     testCompile "org.assertj:assertj-core"
     testCompile "junit:junit"
@@ -178,6 +166,8 @@ dependencies {
 
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
+
+
 
 task cleanResources(type: Delete) {
     delete 'build/resources'
