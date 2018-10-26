@@ -1,5 +1,7 @@
 package biz.iwag.blog.config;
 
+import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
+import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
 import io.github.jhipster.config.JHipsterProperties;
 
 import com.codahale.metrics.JmxReporter;
@@ -21,7 +23,8 @@ import java.lang.management.ManagementFactory;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-public class MetricsConfiguration {
+@EnableMetrics(proxyTargetClass = true)
+public class MetricsConfiguration extends MetricsConfigurerAdapter {
 
     private static final String PROP_METRIC_REG_JVM_MEMORY = "jvm.memory";
     private static final String PROP_METRIC_REG_JVM_GARBAGE = "jvm.garbage";
@@ -49,11 +52,13 @@ public class MetricsConfiguration {
         this.hikariDataSource = hikariDataSource;
     }
 
+    @Override
     @Bean
     public MetricRegistry getMetricRegistry() {
         return metricRegistry;
     }
 
+    @Override
     @Bean
     public HealthCheckRegistry getHealthCheckRegistry() {
         return healthCheckRegistry;
@@ -68,8 +73,7 @@ public class MetricsConfiguration {
         metricRegistry.register(PROP_METRIC_REG_JVM_FILES, new FileDescriptorRatioGauge());
         metricRegistry.register(PROP_METRIC_REG_JVM_BUFFERS, new BufferPoolMetricSet(ManagementFactory.getPlatformMBeanServer()));
         metricRegistry.register(PROP_METRIC_REG_JVM_ATTRIBUTE_SET, new JvmAttributeGaugeSet());
-        if (hikariDataSource != null && hikariDataSource.getMetricRegistry() == null
-            && hikariDataSource.getMetricsTrackerFactory() == null) {
+        if (hikariDataSource != null) {
             log.debug("Monitoring the datasource");
             // remove the factory created by HikariDataSourceMetricsPostProcessor until JHipster migrate to Micrometer
             hikariDataSource.setMetricsTrackerFactory(null);

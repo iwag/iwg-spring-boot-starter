@@ -90,6 +90,7 @@ dependencies {
     compile "io.dropwizard.metrics:metrics-jvm"
     compile "io.dropwizard.metrics:metrics-servlet"
     compile "io.dropwizard.metrics:metrics-servlets"
+    compile "com.ryantenney.metrics:metrics-spring"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-json-org"
 //    compile "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
