@@ -1,6 +1,7 @@
 package biz.iwag.blog.service;
 
 import biz.iwag.blog.BlogApp;
+import biz.iwag.blog.config.EmbededRedisTestConfiguration;
 import biz.iwag.blog.repository.GameDataRedisRepository;
 import biz.iwag.blog.repository.HelperRedisRepository;
 import biz.iwag.blog.service.dto.VersionDTO;
@@ -10,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.auditing.AuditingHandler;
 import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,6 +30,7 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BlogApp.class)
+@Import(EmbededRedisTestConfiguration.class)
 @Transactional
 public class VersionServiceIntTest {
 

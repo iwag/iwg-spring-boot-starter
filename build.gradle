@@ -10,14 +10,12 @@ buildscript {
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
         classpath "io.spring.gradle:propdeps-plugin:0.0.10.RELEASE"
-        classpath "org.openapitools:openapi-generator-gradle-plugin:3.0.1"
         classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.5.1"
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
 }
 
 plugins {
-    id "org.sonarqube" version "2.6.2"
     id "net.ltgt.apt-eclipse" version "0.15"
     id "net.ltgt.apt-idea" version "0.15"
     id "net.ltgt.apt" version "0.15"
@@ -88,55 +86,14 @@ if (OperatingSystem.current().isWindows()) {
     }
 }
 
-test {
-    exclude '**/CucumberTest*'
-
-    // uncomment if the tests reports are not generated
-    // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
-    // ignoreFailures true
-    reports.html.enabled = false
-}
-
-task cucumberTest(type: Test) {
-    description = "Execute cucumber BDD tests."
-    group = "verification"
-    include '**/CucumberTest*'
-
-    // uncomment if the tests reports are not generated
-    // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
-    // ignoreFailures true
-    reports.html.enabled = false
-}
-
-check.dependsOn cucumberTest
-task testReport(type: TestReport) {
-    destinationDir = file("$buildDir/reports/tests")
-    reportOn test
-}
-
-task cucumberTestReport(type: TestReport) {
-    destinationDir = file("$buildDir/reports/tests")
-    reportOn cucumberTest
-}
-
 apply from: 'gradle/docker.gradle'
-apply from: 'gradle/sonar.gradle'
 apply from: 'gradle/liquibase.gradle'
-apply from: 'gradle/swagger.gradle'
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
 if (project.hasProperty('prod')) {
     apply from: 'gradle/profile_prod.gradle'
 } else {
     apply from: 'gradle/profile_dev.gradle'
-}
-
-if (project.hasProperty('graphite')) {
-    apply from: 'gradle/graphite.gradle'
-}
-
-if (project.hasProperty('prometheus')) {
-    apply from: 'gradle/prometheus.gradle'
 }
 
 configurations {
@@ -161,25 +118,23 @@ dependencies {
     compile "io.dropwizard.metrics:metrics-servlets"
     compile "net.logstash.logback:logstash-logback-encoder"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-json-org"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+//    compile "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
     compile "com.fasterxml.jackson.core:jackson-annotations"
     compile "com.fasterxml.jackson.core:jackson-databind"
     compile "com.fasterxml.jackson.module:jackson-module-afterburner"
-    compile "com.ryantenney.metrics:metrics-spring"
+    compile "com.ryantenney.metrics:metrics-spring" // can delete . but take a elimination of "@Timed" annotation
     compile "org.hibernate:hibernate-core"
     compile "com.zaxxer:HikariCP"
     compile "org.apache.commons:commons-lang3"
-    compile "commons-io:commons-io"
+    // compile "commons-io:commons-io" // for utility functions
     compile "javax.transaction:javax.transaction-api"
     compile "org.hibernate:hibernate-entitymanager"
     compile "org.hibernate:hibernate-envers"
     compile "org.hibernate.validator:hibernate-validator"
     compile "org.liquibase:liquibase-core"
-    compile "com.mattbertolini:liquibase-slf4j"
+    //compile "com.mattbertolini:liquibase-slf4j"
     compile "org.springframework.boot:spring-boot-loader-tools"
-    compile "org.springframework.boot:spring-boot-starter-mail"
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.boot:spring-boot-starter-aop"
@@ -198,24 +153,16 @@ dependencies {
     compile "org.springframework.security:spring-security-web"
     compile "org.springframework.security.oauth:spring-security-oauth2"
     compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
-    compile ("io.springfox:springfox-swagger2") {
-        exclude module: 'mapstruct'
-    }
-    compile "io.springfox:springfox-bean-validators"
     compile "org.postgresql:postgresql"
-    compile "org.mapstruct:mapstruct-jdk8:${mapstruct_version}"
     compile("org.springframework.boot:spring-boot-starter-data-redis")
     compile("org.apache.commons:commons-pool2:2.0")
     compile("org.springframework.boot:spring-boot-starter-batch")
 
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct_version}"
     annotationProcessor "org.hibernate:hibernate-jpamodelgen"
     annotationProcessor ("org.springframework.boot:spring-boot-configuration-processor") {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
     testCompile "com.jayway.jsonpath:json-path"
-    testCompile "io.cucumber:cucumber-junit"
-    testCompile "io.cucumber:cucumber-spring"
     testCompile ("org.springframework.boot:spring-boot-starter-test") {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
