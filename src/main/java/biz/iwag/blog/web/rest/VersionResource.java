@@ -1,7 +1,6 @@
 package biz.iwag.blog.web.rest;
 
 import biz.iwag.blog.service.dto.VersionDTO;
-import com.codahale.metrics.annotation.Timed;
 import biz.iwag.blog.service.VersionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,6 @@ public class VersionResource {
      *
      */
     @RequestMapping(path = "/version/getApi", method=RequestMethod.POST)
-    @Timed
     public ResponseEntity<VersionDTO> getApi(@RequestParam("deviceId") String deviceId,
                                              @RequestParam("platform") String platform,
                                              @RequestParam("build_version") String buildVersion,
