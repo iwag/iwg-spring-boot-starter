@@ -1,9 +1,9 @@
 package biz.iwag.blog.web.rest;
 
 import biz.iwag.blog.domain.Player;
+import biz.iwag.blog.domain.PlayerData;
+import biz.iwag.blog.repository.PlayerDataRepository;
 import biz.iwag.blog.repository.PlayerRepository;
-import biz.iwag.blog.service.VersionService;
-import biz.iwag.blog.service.dto.VersionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,8 +29,11 @@ public class LoginResource {
 
     private final PlayerRepository playerRepository;
 
-    public LoginResource(PlayerRepository playerRepository) {
+    private final PlayerDataRepository playerDataRepository;
+
+    public LoginResource(PlayerRepository playerRepository, PlayerDataRepository playerDataRepository) {
         this.playerRepository = playerRepository;
+        this.playerDataRepository = playerDataRepository;
     }
 
     /**
@@ -40,7 +44,12 @@ public class LoginResource {
     public ResponseEntity<Player> getApi(@RequestParam("deviceId") String deviceId ){
         Player example = new Player();
         example.setDeviceId(deviceId);
-        Optional<Player> player = playerRepository.findOne(Example.of(example));
-        return ResponseEntity.ok(player.get());
+        Optional<Player> playerOpt = playerRepository.findOne(Example.of(example));
+
+        playerOpt.ifPresent(p -> {
+            List<PlayerData> list = playerDataRepository.findAllByPlayerId(p.getId());
+        });
+
+        return ResponseEntity.ok(playerOpt.get());
     }
 }

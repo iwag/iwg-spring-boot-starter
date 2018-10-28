@@ -2,6 +2,7 @@ package biz.iwag.blog.web.rest;
 
 import biz.iwag.blog.BlogApp;
 import biz.iwag.blog.domain.Player;
+import biz.iwag.blog.repository.PlayerDataRepository;
 import biz.iwag.blog.repository.PlayerRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -163,10 +164,13 @@ public class LoginResourceIntTest {
 
     private Player player;
 
+    @Autowired
+    private PlayerDataRepository playerDataRepository;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final LoginResource playerResource = new LoginResource(playerRepository);
+        final LoginResource playerResource = new LoginResource(playerRepository, playerDataRepository);
         this.restPlayerMockMvc = MockMvcBuilders.standaloneSetup(playerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setConversionService(createFormattingConversionService())
