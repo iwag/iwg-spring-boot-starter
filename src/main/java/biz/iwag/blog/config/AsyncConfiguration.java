@@ -1,7 +1,5 @@
 package biz.iwag.blog.config;
 
-import io.github.jhipster.async.ExceptionHandlingAsyncTaskExecutor;
-import io.github.jhipster.config.JHipsterProperties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +19,10 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
     private final Logger log = LoggerFactory.getLogger(AsyncConfiguration.class);
 
-    private final JHipsterProperties jHipsterProperties;
+    private final CoreProperties coreProperties;
 
-    public AsyncConfiguration(JHipsterProperties jHipsterProperties) {
-        this.jHipsterProperties = jHipsterProperties;
+    public AsyncConfiguration(CoreProperties coreProperties) {
+        this.coreProperties = coreProperties;
     }
 
     @Override
@@ -32,11 +30,11 @@ public class AsyncConfiguration implements AsyncConfigurer {
     public Executor getAsyncExecutor() {
         log.debug("Creating Async Task Executor");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(jHipsterProperties.getAsync().getCorePoolSize());
-        executor.setMaxPoolSize(jHipsterProperties.getAsync().getMaxPoolSize());
-        executor.setQueueCapacity(jHipsterProperties.getAsync().getQueueCapacity());
+        executor.setCorePoolSize(coreProperties.getAsync().getCorePoolSize());
+        executor.setMaxPoolSize(coreProperties.getAsync().getMaxPoolSize());
+        executor.setQueueCapacity(coreProperties.getAsync().getQueueCapacity());
         executor.setThreadNamePrefix("blog-Executor-");
-        return new ExceptionHandlingAsyncTaskExecutor(executor);
+        return executor;
     }
 
     @Override

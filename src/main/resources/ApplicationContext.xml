@@ -37,4 +37,5 @@
     <bean id="redisTemplate0" class="org.springframework.data.redis.core.StringRedisTemplate"
           p:connection-factory-ref="lettuceConnectionFactory0" p:enable-transaction-support="false"/>
 
+
 </beans>

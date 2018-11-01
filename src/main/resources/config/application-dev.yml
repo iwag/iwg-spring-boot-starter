@@ -32,13 +32,14 @@ spring:
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:h2:file:./build/h2db/db/blog;DB_CLOSE_DELAY=-1
+        jdbcUrl: jdbc:h2:file:./build/h2db/db/blog;DB_CLOSE_DELAY=-1
         username: blog
         password:
     h2:
         console:
-            enabled: false
+            enabled: true
     jpa:
-        database-platform: io.github.jhipster.domain.util.FixedH2Dialect
+#        database-platform: io.github.jhipster.domain.util.FixedH2Dialect
         database: H2
         show-sql: true
         properties:
@@ -77,26 +78,12 @@ server:
 # Full reference is available at: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-jhipster:
-    http:
-        version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
-    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
-        jmx:
-            enabled: true
-        logs: # Reports Dropwizard metrics in the logs
-            enabled: false
-            report-frequency: 60 # in seconds
-    logging:
-        logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
-            enabled: false
-            host: localhost
-            port: 5000
-            queue-size: 512
+
 
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
-# to have type-safe configuration, like in the JHipsterProperties above
+# to have type-safe configuration, like in the CoreProperties above
 #
 # More documentation is available at:
 # https://www.jhipster.tech/common-application-properties/

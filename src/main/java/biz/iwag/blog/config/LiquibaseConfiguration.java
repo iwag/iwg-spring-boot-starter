@@ -11,8 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.task.TaskExecutor;
 
-import io.github.jhipster.config.JHipsterConstants;
-import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
+//import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
 import liquibase.integration.spring.SpringLiquibase;
 
 @Configuration
@@ -29,10 +28,10 @@ public class LiquibaseConfiguration {
 
     @Bean
     public SpringLiquibase liquibase(@Qualifier("taskExecutor") TaskExecutor taskExecutor,
-            DataSource dataSource, LiquibaseProperties liquibaseProperties) {
+                                     DataSource dataSource, LiquibaseProperties liquibaseProperties) {
 
         // Use liquibase.integration.spring.SpringLiquibase if you don't want Liquibase to start asynchronously
-        SpringLiquibase liquibase = new AsyncSpringLiquibase(taskExecutor, env);
+        SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog("classpath:config/liquibase/master.xml");
         liquibase.setContexts(liquibaseProperties.getContexts());

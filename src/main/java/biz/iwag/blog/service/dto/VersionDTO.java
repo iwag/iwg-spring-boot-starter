@@ -1,7 +1,5 @@
 package biz.iwag.blog.service.dto;
 
-import io.swagger.models.auth.In;
-
 public class VersionDTO {
     private Integer api_version;
     private Boolean returning_default_api;

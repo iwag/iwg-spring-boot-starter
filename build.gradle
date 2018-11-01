@@ -84,7 +84,6 @@ repositories {
 dependencies {
     // Use ", version: jhipster_dependencies_version, changing: true" if you want
     // to use a SNAPSHOT release instead of a stable release
-    compile group: "io.github.jhipster", name: "jhipster-framework"
     compile "io.dropwizard.metrics:metrics-core"
     compile "io.dropwizard.metrics:metrics-json"
     compile "io.dropwizard.metrics:metrics-jvm"
@@ -106,6 +105,7 @@ dependencies {
     compile "org.hibernate.validator:hibernate-validator"
     compile "org.liquibase:liquibase-core"
     //compile "com.mattbertolini:liquibase-slf4j"
+    compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-loader-tools"
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-starter-actuator"

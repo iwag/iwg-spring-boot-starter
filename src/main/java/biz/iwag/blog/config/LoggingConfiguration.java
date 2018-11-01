@@ -1,11 +1,7 @@
 package biz.iwag.blog.config;
 
-import java.net.InetSocketAddress;
 import java.util.Iterator;
 
-import io.github.jhipster.config.JHipsterProperties;
-
-import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.boolex.OnMarkerEvaluator;
@@ -35,20 +31,20 @@ public class LoggingConfiguration {
 
     private final String serverPort;
 
-    private final JHipsterProperties jHipsterProperties;
+    private final CoreProperties coreProperties;
 
     public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort,
-         JHipsterProperties jHipsterProperties) {
+         CoreProperties coreProperties) {
         this.appName = appName;
         this.serverPort = serverPort;
-        this.jHipsterProperties = jHipsterProperties;
-        if (jHipsterProperties.getLogging().getLogstash().isEnabled()) {
-            addLogstashAppender(context);
-            addContextListener(context);
-        }
-        if (jHipsterProperties.getMetrics().getLogs().isEnabled()) {
-            setMetricsMarkerLogbackFilter(context);
-        }
+        this.coreProperties = coreProperties;
+//        if (coreProperties.getLogging().getLogstash().isEnabled()) {
+//            addLogstashAppender(context);
+//            addContextListener(context);
+//        }
+//        if (coreProperties.getMetrics().getLogs().isEnabled()) {
+//            setMetricsMarkerLogbackFilter(context);
+//        }
     }
 
     private void addContextListener(LoggerContext context) {

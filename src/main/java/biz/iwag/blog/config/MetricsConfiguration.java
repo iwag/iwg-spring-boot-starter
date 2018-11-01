@@ -2,7 +2,6 @@ package biz.iwag.blog.config;
 
 import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
-import io.github.jhipster.config.JHipsterProperties;
 
 import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.JvmAttributeGaugeSet;
@@ -39,12 +38,9 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
 
     private HealthCheckRegistry healthCheckRegistry = new HealthCheckRegistry();
 
-    private final JHipsterProperties jHipsterProperties;
-
     private HikariDataSource hikariDataSource;
 
-    public MetricsConfiguration(JHipsterProperties jHipsterProperties) {
-        this.jHipsterProperties = jHipsterProperties;
+    public MetricsConfiguration() {
     }
 
     @Autowired(required = false)
@@ -78,17 +74,6 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
             // remove the factory created by HikariDataSourceMetricsPostProcessor until JHipster migrate to Micrometer
             hikariDataSource.setMetricsTrackerFactory(null);
             hikariDataSource.setMetricRegistry(metricRegistry);
-        }
-        if (jHipsterProperties.getMetrics().getLogs().isEnabled()) {
-            log.info("Initializing Metrics Log reporting");
-            Marker metricsMarker = MarkerFactory.getMarker("metrics");
-            final Slf4jReporter reporter = Slf4jReporter.forRegistry(metricRegistry)
-                .outputTo(LoggerFactory.getLogger("metrics"))
-                .markWith(metricsMarker)
-                .convertRatesTo(TimeUnit.SECONDS)
-                .convertDurationsTo(TimeUnit.MILLISECONDS)
-                .build();
-            reporter.start(jHipsterProperties.getMetrics().getLogs().getReportFrequency(), TimeUnit.SECONDS);
         }
     }
 }
