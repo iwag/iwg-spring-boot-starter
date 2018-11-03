@@ -1,9 +1,7 @@
 package biz.iwag.blog;
 
-import biz.iwag.blog.config.ApplicationProperties;
 import biz.iwag.blog.config.DefaultProfileUtil;
 
-import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @SpringBootApplication
-@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@EnableConfigurationProperties({LiquibaseProperties.class})
 public class BlogApp {
 
     private static final Logger log = LoggerFactory.getLogger(BlogApp.class);
