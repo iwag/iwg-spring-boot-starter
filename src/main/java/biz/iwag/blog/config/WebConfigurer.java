@@ -103,7 +103,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 
 
     @Bean
-    @Profile(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)
+    @Profile(Constants.SPRING_PROFILE_DEVELOPMENT)
     ServletRegistrationBean h2consoleRegistration(){
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
         registrationBean.addUrlMappings("/h2-console/*");
