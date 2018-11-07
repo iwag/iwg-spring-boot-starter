@@ -1,9 +1,6 @@
 package biz.iwag.blog.config;
 
 import com.codahale.metrics.MetricRegistry;
-import io.undertow.Undertow;
-import io.undertow.Undertow.Builder;
-import io.undertow.UndertowOptions;
 
 import org.h2.server.web.WebServlet;
 import org.junit.Before;
@@ -12,7 +9,6 @@ import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFa
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.xnio.OptionMap;
 
 import javax.servlet.*;
 
@@ -36,7 +32,6 @@ public class WebConfigurerTest {
 
     private MockEnvironment env;
 
-    private CoreProperties props;
 
     private MetricRegistry metricRegistry;
 
@@ -49,9 +44,8 @@ public class WebConfigurerTest {
             .when(servletContext).addServlet(anyString(), any(Servlet.class));
 
         env = new MockEnvironment();
-        props = new CoreProperties();
 
-        webConfigurer = new WebConfigurer(env, props);
+        webConfigurer = new WebConfigurer(env);
         metricRegistry = new MetricRegistry();
         webConfigurer.setMetricRegistry(metricRegistry);
     }
@@ -79,21 +73,5 @@ public class WebConfigurerTest {
 //        verify(servletContext).addServlet(eq("metricsServlet"), any(MetricsServlet.class));
 //        verify(servletContext).addServlet(eq("H2Console"), any(WebServlet.class));
     }
-
-    @Test
-    public void testCustomizeServletContainer() {
-        env.setActiveProfiles(Constants.SPRING_PROFILE_PRODUCTION);
-        UndertowServletWebServerFactory container = new UndertowServletWebServerFactory();
-        webConfigurer.customize(container);
-        assertThat(container.getMimeMappings().get("abs")).isEqualTo("audio/x-mpeg");
-        assertThat(container.getMimeMappings().get("html")).isEqualTo("text/html;charset=utf-8");
-        assertThat(container.getMimeMappings().get("json")).isEqualTo("text/html;charset=utf-8");
-
-        Builder builder = Undertow.builder();
-        container.getBuilderCustomizers().forEach(c -> c.customize(builder));
-        OptionMap.Builder serverOptions = (OptionMap.Builder) ReflectionTestUtils.getField(builder, "serverOptions");
-        assertThat(serverOptions.getMap().get(UndertowOptions.ENABLE_HTTP2)).isNull();
-    }
-
 
 }
